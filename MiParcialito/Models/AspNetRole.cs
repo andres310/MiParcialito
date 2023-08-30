@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MiParcialito.Models;
 
-public partial class AspNetRole : IdentityRole<Int32>
+public partial class AspNetRole
 {
     public int Id { get; set; }
 
