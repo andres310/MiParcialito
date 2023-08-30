@@ -41,26 +41,32 @@ namespace MiParcialito.Controllers
             return View(myDbContext);
         }
 
+        [HttpGet]
+        public IActionResult Inscribir(int idCurso)
+        {
+            Curso model = _context.Cursos.Find(idCurso);
+            return View(model);
+        }
+
         // Recibe id del curso que se desea inscribir
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async void Inscribir(int? id, int usuarioId)
+        public async Task<IActionResult> Inscribir(int? usuarioId, Curso curso)
         {
             // Obtiene usuario de la sesion
-            _applicationDbContext.Find<AspNetUser>();
-            //string userName = User.Identity.Name;
-            //var user = await _userManager.GetUserAsync(User);
-            int idEstudiante = _context.Estudiantes
-                .First(estudiante => estudiante.IdUsuarioNavigation.Id.Equals(usuarioId))
-                .Id;
+            Estudiante estudiante = _context.Estudiantes
+                .First(estudiante => estudiante.IdUsuarioNavigation.Id.Equals(usuarioId));
+
+            //Curso curso = await _context.Cursos.FindAsync();
+            
             var nuevaInscripcion = new Inscripcione
             {
-                IdCurso = id,
-                IdEstudiante = idEstudiante
+                IdCurso = curso.Id,
+                IdEstudiante = estudiante.Id
             };
             _context.Add(nuevaInscripcion);
             await _context.SaveChangesAsync();
-            RedirectToAction("Index", "Inscripcione");
+            return RedirectToAction("Index", "Inscripcione");
         }
 
         // GET: Curso/Details/5
