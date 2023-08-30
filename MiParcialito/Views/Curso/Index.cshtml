@@ -1,0 +1,47 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<MiParcialito.Models.ViewModel.CursoDocenteViewModel>
+@inject SignInManager<IdentityUser<Int32>> SignInManager
+@inject UserManager<IdentityUser<Int32>> UserManager
+
+@{
+    ViewData["Title"] = "Cursos";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Cursos</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo curso</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreCurso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDocente)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCurso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreDocente)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> |
+                <a asp-action="Inscribir" asp-route-id="@item.Id" asp-route-usuarioId="@UserManager.GetUserId(User)">Inscribir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
