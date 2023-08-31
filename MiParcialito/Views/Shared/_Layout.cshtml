@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -28,18 +30,24 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Curso" asp-action="Index">Cursos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Docente" asp-action="Index">Docentes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Inscripcione" asp-action="Index">Inscripciones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="MyRole" asp-action="Index">Roles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="MyUserRole" asp-action="Index">Rol User</a>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Docente" asp-action="Index">Docentes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="MyRole" asp-action="Index">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="MyUserRole" asp-action="Index">Rol User</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Estudiante") || User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Inscripcione" asp-action="Index">Inscripciones</a>
+                        </li>                        
+                    }
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>

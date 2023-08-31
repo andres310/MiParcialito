@@ -83,6 +83,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Inscripcione/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Inscripciones == null)
@@ -105,6 +106,7 @@ namespace MiParcialito.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdEstudiante,IdCurso")] Inscripcione inscripcione)
         {
             if (id != inscripcione.Id)
@@ -138,6 +140,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Inscripcione/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Inscripciones == null)
@@ -160,6 +163,7 @@ namespace MiParcialito.Controllers
         // POST: Inscripcione/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Inscripciones == null)

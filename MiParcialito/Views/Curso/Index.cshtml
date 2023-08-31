@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<MiParcialito.Models.ViewModel.CursoDocenteViewModel>
@@ -11,9 +12,12 @@
 
 <h1>Cursos</h1>
 
-<p>
-    <a asp-action="Create">Crear nuevo curso</a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Crear nuevo curso</a>
+    </p>   
+}
 <table class="table">
     <thead>
         <tr>
@@ -36,10 +40,16 @@
                 @Html.DisplayFor(modelItem => item.NombreDocente)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a><span> | </span>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a><span> | </span>
+                }
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> |
-                <input onclick="document.location.href='@Url.Content("~/Curso/Inscribir/" + item.Id)'" type="url" value="Inscribir" class="link-primary"/>
+                @if (User.IsInRole("Estudiante"))
+                {
+                    <input onclick="document.location.href='@Url.Content("~/Curso/Inscribir/" + item.Id)'" type="text" value="Inscribir" class="link-primary"/>   
+                }
             </td>
         </tr>
 }
