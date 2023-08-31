@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiParcialito.Models;
@@ -5,6 +6,7 @@ using MiParcialito.Models.ViewModel;
 
 namespace MiParcialito.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class MyUserRoleController : Controller
 {
     private readonly MyDbContext _context;

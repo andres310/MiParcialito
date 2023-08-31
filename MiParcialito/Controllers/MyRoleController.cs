@@ -10,7 +10,7 @@ using MiParcialito.Models;
 
 namespace MiParcialito.Controllers
 {
-    [Authorize(Roles = "nel pastel")]
+    [Authorize(Roles = "Admin")]
     public class MyRoleController : Controller
     {
         private readonly MyDbContext _context;
@@ -21,7 +21,6 @@ namespace MiParcialito.Controllers
         }
 
         // GET: MyRole
-        [Authorize(Roles = "nel")]
         public async Task<IActionResult> Index()
         {
               return _context.AspNetRoles != null ? 

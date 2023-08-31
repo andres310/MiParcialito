@@ -39,8 +39,7 @@
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a> |
-                <input onclick="document.location.href='@Url.Content("~/Curso/Inscribir/" + item.Id)'" type="button" value="Editar" class="link-primary"/>
-                <a asp-action="Inscribir" asp-route-id="@item.Id" asp-route-usuarioId="@UserManager.GetUserId(User)">nouu</a>
+                <input onclick="document.location.href='@Url.Content("~/Curso/Inscribir/" + item.Id)'" type="url" value="Inscribir" class="link-primary"/>
             </td>
         </tr>
 }

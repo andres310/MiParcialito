@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using MiParcialito.Models.ViewModel;
 
 namespace MiParcialito.Controllers
 {
+    [Authorize(Roles = "Estudiante, Admin")]
     public class CursoController : Controller
     {
         private readonly MyDbContext _context;
@@ -26,6 +28,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Curso
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             //var myDbContext = _context.Cursos.Include(c => c.IdDocenteNavigation);
@@ -40,8 +43,9 @@ namespace MiParcialito.Controllers
 
             return View(myDbContext);
         }
-
+        
         [HttpGet]
+        [Authorize(Roles = "Estudiante")]
         public IActionResult Inscribir(int idCurso)
         {
             Curso model = _context.Cursos.Find(idCurso);
@@ -51,6 +55,7 @@ namespace MiParcialito.Controllers
         // Recibe id del curso que se desea inscribir
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Estudiante")]
         public async Task<IActionResult> Inscribir(int? usuarioId, Curso curso)
         {
             // Obtiene usuario de la sesion
@@ -70,6 +75,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Curso/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Cursos == null)
@@ -89,6 +95,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Curso/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["IdDocente"] = new SelectList(_context.Docentes, "Id", "Id");
@@ -100,6 +107,7 @@ namespace MiParcialito.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,IdDocente,Nombre")] Curso curso)
         {
             if (ModelState.IsValid)
@@ -113,6 +121,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Curso/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Cursos == null)
@@ -134,6 +143,7 @@ namespace MiParcialito.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdDocente,Nombre")] Curso curso)
         {
             if (id != curso.Id)
@@ -166,6 +176,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: Curso/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Cursos == null)
@@ -187,6 +198,7 @@ namespace MiParcialito.Controllers
         // POST: Curso/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Cursos == null)
