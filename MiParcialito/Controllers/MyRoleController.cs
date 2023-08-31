@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using MiParcialito.Models;
 
 namespace MiParcialito.Controllers
 {
+    [Authorize(Roles = "nel pastel")]
     public class MyRoleController : Controller
     {
         private readonly MyDbContext _context;
@@ -19,6 +21,7 @@ namespace MiParcialito.Controllers
         }
 
         // GET: MyRole
+        [Authorize(Roles = "nel")]
         public async Task<IActionResult> Index()
         {
               return _context.AspNetRoles != null ? 
