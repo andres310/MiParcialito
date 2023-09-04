@@ -49,7 +49,7 @@ namespace MiParcialito.Controllers
         // GET: Docente/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.AspNetUsers, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Docentes, "Id", "Id");
             return View();
         }
 
